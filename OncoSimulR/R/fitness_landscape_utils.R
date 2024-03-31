@@ -22,6 +22,9 @@ plotFitnessLandscape <- function(x, show_labels = TRUE,
                                  log = FALSE, max_num_genotypes = 2000,
                                  only_accessible = FALSE,
                                  accessible_th = 0,
+                                 y_axis_name = 'Fitness',
+                                 x_axis_name = 'Genotype',
+                                 starting_strain = 'WT',
                                  ...) {
 
     ## FIXME future:
@@ -58,6 +61,7 @@ plotFitnessLandscape <- function(x, show_labels = TRUE,
 
   
     tfm <- to_Fitness_Matrix(x, max_num_genotypes = max_num_genotypes)
+    tfm$afe$Genotype[1] <- start_strain_name
 
     mutated <- rowSums(tfm$gfm[, -ncol(tfm$gfm)])
     gaj <- genot_to_adj_mat(tfm$gfm)
@@ -94,7 +98,7 @@ plotFitnessLandscape <- function(x, show_labels = TRUE,
     number_ticks <- function(n) {function(limits) pretty(limits, n)}
     
     p <- ggplot() +
-        xlab("") + ylab("Birth") + 
+        xlab(x_axis_name) + ylab(y_axis_name) + 
         theme(axis.text.x = element_blank(), axis.ticks.x = element_blank(),
               panel.grid.minor.x = element_blank()) +
         geom_segment(data = sg,
